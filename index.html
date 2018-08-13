@@ -3,25 +3,19 @@
   <head>
     <script src="jquery.js"></script>
     <script src="data_generator.js"></script>
+    <script src="twittler.js"></script>
+    <link rel="stylesheet" type="text/css" href="twittler.css"> 
   </head>
   <body>
-    <script>
-
-      $(document).ready(function(){
-        var $body = $('body');
-        $body.html('');
-
-        var index = streams.home.length - 1;
-        while(index >= 0){
-          var tweet = streams.home[index];
-          var $tweet = $('<div></div>');
-          $tweet.text('@' + tweet.user + ': ' + tweet.message);
-          $tweet.appendTo($body);
-          index -= 1;
-        }
-
-      });
-
-    </script>
+	<form id="PostForm" action="#" method="post">
+	  <div>
+	    <label for="msg">Message:</label>
+	    <textarea id="msg" name="user_message"></textarea><br/>
+	    <a href="#all" class="userTimeline">Show All Tweets</a>
+	    <span class="right">
+	    	<button id="tweet" type="button">Tweet!</button>
+	    </span><br/>
+	  </div>
+	</form>
   </body>
 </html>

@@ -1,0 +1,16 @@
+body {
+	background-color: silver;
+}
+
+div {
+	background-color: white;
+	min-width: 100px;
+	margin: 0 auto;
+	width: 400px;
+	padding: 5px;
+	border: 2px blue;
+}
+.right {
+	text-align: right;
+	float: right;
+}
