@@ -11,9 +11,9 @@ $(document).ready(function(){
         //loop through the initial tweets and add the appropriate divs
         while(index >= 0){
           var tweet = streams.home[index];
-          var $tweet = $('<div class="tweet"><a href="#' + tweet.user + '" class="userTimeline">@' + tweet.user + '</a> ' +
-                    '<span class="right">' + tweet.created_at.toLocaleString() + '</span><br/>'
-                    + tweet.message + '</div>');
+          var $tweet = $('<div class="tweet"><blockquote class="tweet">' + tweet.message + 
+                    '</br><span><strong>-<a href="#' + tweet.user + '" class="userTimeline">@' + tweet.user + '</a><strong> ' + moment(tweet.created_at).fromNow() + '</span><br/>'
+                    + '</div>');
           $tweet.appendTo($body);
           index -= 1;
         }
@@ -31,25 +31,28 @@ $(document).ready(function(){
       });
 
 function displayTweets() {
-        //find the form element
-        var $form = $('form');
-        var index = streams.home.length - 1;
-        //go through the new tweets and insert them after the form element if the user being displayed matches
-        while(index > lastDisplayedTweet){
-          var tweet = streams.home[index];
-          if (userToDisplay === "all" || userToDisplay === tweet.user) {
-          var $tweet = $('<div class="tweet"><a href="#' + tweet.user + '" class="userTimeline">@' + tweet.user + '</a> ' +
-                    '<span class="right">' + tweet.created_at.toLocaleString() + '</span><br/>'
-                    + tweet.message + '</div>');
-          $form.after($tweet);
-        }
-          index -= 1;
-        }
-        lastDisplayedTweet = streams.home.length - 1;
-        //reapply the click event function to all the new div's created
-        $(".userTimeline").click(function () {
-        displayUserTimeline($(this).attr("href").substring(1));
-        });
+    //get the form element and the sibling elements
+    var $form = $('#PostForm')
+    var tweetList = $form.nextAll()
+    //remove all the sibling elements and rebuild the tweet list.
+    tweetList.remove();
+    var $body = $('body');
+    //loop through all the tweets and repost only those that match the user we want to see
+    var index = streams.home.length - 1;
+    lastDisplayedTweet = index;
+    while(index >= 0){
+    var tweet = streams.home[index];
+    if (userToDisplay === "all" || userToDisplay === tweet.user) {
+      var $tweet = $('<div class="tweet"><blockquote class="tweet">' + tweet.message + 
+      '</br><span><strong>-<a href="#' + tweet.user + '" class="userTimeline">@' + tweet.user + '</a><strong> ' + moment(tweet.created_at).fromNow() + '</span><br/>'
+      + '</div>');
+    }
+    $tweet.appendTo($body);
+    index -= 1;
+    }
+    $(".userTimeline").click(function () {
+      displayUserTimeline($(this).attr("href").substring(1));
+    });
 }
 
 function addYourTweet() {
@@ -79,11 +82,11 @@ function displayUserTimeline(user) {
     while(index >= 0){
     var tweet = streams.home[index];
     if (userToDisplay === "all" || userToDisplay === tweet.user) {
-    var $tweet = $('<div class="tweet"><a href="#' + tweet.user + '" class="userTimeline">@' + tweet.user + '</a> ' +
-               '<span class="right">' + tweet.created_at.toLocaleString() + '</span><br/>'
-                + tweet.message + '</div>');
+      var $tweet = $('<div class="tweet"><blockquote class="tweet">' + tweet.message + 
+      '</br><span><strong>-<a href="#' + tweet.user + '" class="userTimeline">@' + tweet.user + '</a><strong> ' + moment(tweet.created_at).fromNow() + '</span><br/>'
+      + '</div>');
     }
-    $form.after($tweet);
+    $tweet.appendTo($body);
     index -= 1;
     }
     //reapplying the click function even to all new tweets.
